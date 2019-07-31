@@ -58,13 +58,15 @@ public:
         
         if (!fileHandle)
         {
-            std::cerr << errorAsString(err) << std::endl;
+            // sduquette: silence the log when fuzzing
+            // std::cerr << errorAsString(err) << std::endl;
             throw std::runtime_error("File is not a valid ogg vorbis file");
         }
         
         if (auto r = op_test_open(fileHandle) != 0)
         {
-            std::cerr << errorAsString(r) << std::endl;
+            // sduquette: silence the log when fuzzing
+            // std::cerr << errorAsString(r) << std::endl;
             throw std::runtime_error("Could not open file");
         }
         

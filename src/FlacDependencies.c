@@ -65,7 +65,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Ensure libflac can use non-standard <stdint> types
 #undef __STDC_LIMIT_MACROS
 #define __STDC_LIMIT_MACROS 1
-    
+
+#define flac_max(a,b) ((a) > (b) ? a : b)
+#define flac_min(a,b) ((a) < (b) ? a : b)
+
 #if defined(__APPLE__) && defined(__MACH__)
 #define flac_max(a,b) ((a) > (b) ? a : b)
 #define flac_min(a,b) ((a) < (b) ? a : b)

@@ -226,6 +226,29 @@ source_group(src FILES ${nyquist_src})
 
 # libnyquist-examples
 
+if(NYQUIST_FUZZING)
+    add_definitions(-DNYQUIST_FUZZING)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=fuzzer")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=fuzzer")
+    set(NYQUIST_ASAN 1)
+    set(NYQUIST_LLVM_CODE_COVERAGE 1)
+    set(BUILD_EXAMPLE 0)
+endif()
+
+if(NYQUIST_LLVM_CODE_COVERAGE)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
+endif()
+
+if(NYQUIST_ASAN)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -fno-sanitize-recover=undefined -fno-omit-frame-pointer")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-sanitize-recover=undefined -fno-omit-frame-pointer")
+endif()
+
+if(NYQUIST_FUZZING)
+    add_subdirectory(fuzzers)
+endif()
+
 if(BUILD_EXAMPLE)
 
     set(NQR_EXAMPLE_APP_NAME "libnyquist-examples")

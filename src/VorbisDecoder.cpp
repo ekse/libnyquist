@@ -52,7 +52,14 @@ public:
         callbacks.close_func = AR_closeOgg;
         callbacks.tell_func = AR_tellOgg;
         
-        loadAudioData(&t, callbacks);
+        try {
+            loadAudioData(&t, callbacks);
+        } 
+        catch (std::runtime_error &e)
+        {
+            delete fileHandle;
+            throw e;
+        }
     }
     
     VorbisDecoderInternal(AudioData * d, std::string filepath) : d(d)
@@ -66,6 +73,7 @@ public:
     ~VorbisDecoderInternal()
     {
         ov_clear(fileHandle);
+        delete fileHandle;
     }
     
     size_t readInternal(size_t requestedFrameCount, size_t frameOffset = 0)

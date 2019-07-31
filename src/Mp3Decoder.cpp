@@ -54,6 +54,10 @@ void mp3_decode_internal(AudioData * d, const std::vector<uint8_t> & fileData)
 
     d->samples.resize(info.samples);
     std::memcpy(d->samples.data(), info.buffer, sizeof(float) * info.samples);
+
+    // sduquette: fix memory leak
+    free(info.buffer);
+    
 }
 
 //////////////////////
